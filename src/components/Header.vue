@@ -14,12 +14,30 @@
       </div>
       <div class="flex ml-3 pointer"><youtube /></div>
     </div>
-    <!-- search -->
+    <!-- search box -->
     <div class="col-8 flex align-items-center justify-content-center">
-      <IconField>
-        <InputIcon class="pi pi-search"> </InputIcon>
-        <InputText v-model="value1" class="w-64" />
-      </IconField>
+      <InputGroup class="w-8 h-3rem border-round-3xl">
+        <InputText
+          ref="searchInput"
+          placeholder="Search"
+          v-model="searchValue"
+          class="w-full h-3rem shadow-none border-round-left-3xl outline-none"
+          :class="searchType ? 'border-right-none' : ''"
+          @input="userTypeText"
+        />
+        <InputGroupAddon
+          v-if="searchType"
+          @click="clearSearchText"
+          class="px-0 border-left-none border-right-none cursor-pointer"
+        >
+          <i class="pi pi-times"></i
+        ></InputGroupAddon>
+        <InputGroupAddon
+          class="border-round-right-3xl px-4 font-bold bg-gray-50 cursor-pointer"
+        >
+          <i class="pi pi-search"></i>
+        </InputGroupAddon>
+      </InputGroup>
 
       <Button
         icon="pi pi-microphone"
@@ -64,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useMainStore } from "../stores/index";
 import Avatar from "primevue/avatar";
 import youtube from "../components/icons/youtube.vue";
@@ -72,10 +90,35 @@ import Button from "primevue/button";
 import IconField from "primevue/iconfield";
 import InputText from "primevue/inputtext";
 import InputIcon from "primevue/inputicon";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
 
 const store = useMainStore();
 
-const value1 = ref("sjhsk");
+// search box
+const searchInput = ref(null);
+const searchValue = ref(null);
+const searchType = ref(false);
+const userTypeText = () => {
+  searchType.value = searchValue.value !== "";
+};
+watch(searchValue, (newVal) => {
+  searchType.value = newVal !== "";
+});
+const clearSearchText = () => {
+  searchValue.value = "";
+   focusInput();
+};
+
+const focusInput=()=>{
+  if(searchInput.value){
+    searchInput.value.focus();
+  }
+  else {
+    console.warn('searchInput is not ready to be focused');
+  }
+}
+
 </script>
 
 <style scoped>
