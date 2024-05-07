@@ -21,7 +21,7 @@
             </span>
           </div>
           <div class="overflow-y-auto mr-1">
-            <ul class="list-none p-3 m-0">
+            <ul class="list-none px-3 m-0 mt-2">
               <li>
                 <ul class="list-none p-0 m-0 overflow-hidden">
                   <li>
@@ -240,10 +240,10 @@
             </ul>
           </div>
           <div class="mt-auto">
-            <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
+            <hr class="mb-2 mx-3 border-top-1 border-none surface-border" />
             <a
               v-ripple
-              class="m-3 flex align-items-center cursor-pointer p-3 gap-2 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+              class="mb-2 mx-2 flex align-items-center cursor-pointer p-2 gap-1 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
             >
               <Avatar
                 image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"

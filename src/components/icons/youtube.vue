@@ -1,11 +1,11 @@
 <template>
   <div class="logo-container">
-    <!-- SVG logo -->
+    <!-- Responsive SVG logo -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      width="31"
-      height="31"
+      :width="svgWidth" 
+      :height="svgHeight"  
       aria-hidden="true"
     >
       <!-- Background path with a custom color -->
@@ -23,6 +23,31 @@
   </div>
 </template>
 
+<script setup>
+import { ref } from 'vue';
+
+// Reactive SVG width and height based on screen size
+const svgWidth = ref(31);
+const svgHeight = ref(31);
+
+
+const updateSvgSize = () => {
+  if (window.innerWidth <= 660) {
+    svgWidth.value = 23;  
+    svgHeight.value = 23; 
+  } else {
+    svgWidth.value = 31; 
+    svgHeight.value = 31;  
+  }
+};
+
+window.addEventListener('resize', updateSvgSize);
+
+
+updateSvgSize();
+
+</script>
+
 <style scoped>
 .logo-container {
   display: flex !important;
@@ -30,9 +55,16 @@
 }
 
 .logo-text {
-  font-size: 1rem; 
-  color: #059669;   
+  font-size: 1rem;
+  color: #059669;
   font-weight: 600;
-  padding-left: 3px; 
+  padding-left: 3px;
+}
+
+@media (max-width: 660px) {
+  .logo-text {
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
 }
 </style>
