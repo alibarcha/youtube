@@ -1,9 +1,12 @@
 <template>
-  <div class="grid">
-    <div class="col-3 border-1  m-3" >
-      <VideoCard></VideoCard>
+  <div class="grid border-1">
+    <div
+      class="col-12 sm:col-6 md:col-6 lg:col-4 xl:col-3 px-2"
+      v-for="i in 5"
+      :key="i"
+    >
+      <VideoCard :avatar="true" />
     </div>
-    
   </div>
 </template>
 
@@ -11,6 +14,16 @@
 import VideoCard from "@/components/VideoCard.vue";
 </script>
 
-<style>
+<style scoped>
+/* Additional styling for your component */
+.grid {
+  padding: 10px;
+}
 
+.col-12 {
+  padding: 10px;
+}
+.border-1 {
+  border: 1px solid #ccc;
+}
 </style>
