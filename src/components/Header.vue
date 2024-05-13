@@ -1,5 +1,5 @@
 <template>
-  <header class="grid shadow-1 p-2 fixed left-0 right-0 top-0 z-5" >
+  <header class="grid shadow-1 p-2 fixed left-0 right-0 top-0 z-5">
     <!-- logo -->
     <div class="col-3 flex align-items-center justify-content-start">
       <div>
@@ -12,13 +12,15 @@
           size="large"
         />
       </div>
-      <div class="flex md:ml-3 pointer"><youtube /></div>
+      <router-link to="/" >
+        <div class="flex md:ml-3 pointer"><youtube /></div>
+      </router-link>
     </div>
     <!-- search box -->
     <div class="col-6 flex align-items-center justify-content-center">
       <InputGroup class="max-h-3rem border-round-3xl">
         <InputText
-         v-focus
+          v-focus
           ref="searchInput"
           placeholder="Search"
           v-model="searchValue"
@@ -102,10 +104,10 @@
         id="accountMenu"
         :popup="true"
       >
-         <template #start>
+        <template #start>
           <button
             v-ripple
-            class="relative overflow-hidden w-full p-link flex align-items-center p-2  text-color hover:surface-200 border-noround"
+            class="relative overflow-hidden w-full p-link flex align-items-center p-2 text-color hover:surface-200 border-noround"
           >
             <Avatar
               image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
@@ -118,13 +120,13 @@
             </span>
           </button>
         </template>
-       
+
         <template #submenuheader="{ item }">
           <span class="text-primary font-bold">{{ item.label }}</span>
         </template>
         <template #item="{ item, props }">
           <a v-ripple class="flex align-items-center" v-bind="props.action">
-            <span :class="item.icon"  />
+            <span :class="item.icon" />
             <span class="ml-3">{{ item.label }}</span>
             <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
             <span
@@ -134,7 +136,6 @@
             >
           </a>
         </template>
-     
       </Menu>
     </div>
   </header>
@@ -243,10 +244,8 @@ const toggleAccountMenu = (event) => {
 
 // custom directive
 const vFocus = {
-  mounted: (el) => el.focus()
-}
-
-
+  mounted: (el) => el.focus(),
+};
 </script>
 
 <style scoped>

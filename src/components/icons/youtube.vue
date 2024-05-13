@@ -19,7 +19,7 @@
       <path fill="#FFFFFF" d="M9.5,15.5l6.5-3.5l-6.5-3.5V15.5z" />
     </svg>
 
-    <span class="logo-text">YouTube</span>
+    <span class="logo-text">YouTube <sup class="countryCode">PK</sup></span>
   </div>
 </template>
 
@@ -56,6 +56,11 @@ updateSvgSize();
   color: black;
   font-weight: 700;
   padding-left: 3px;
+}
+.countryCode{
+  font-size: 9px;
+  color:black;
+  font-weight: 500;
 }
 
 @media (max-width: 660px) {

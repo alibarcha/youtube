@@ -19,6 +19,6 @@ import SidebarLeft from "./components/SidebarLeft.vue";
 
 
 
-<style scoped>
+<style >
 
 </style>

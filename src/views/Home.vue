@@ -1,21 +1,21 @@
 <template>
-  <div class="grid border-1">
+  <div class="grid">
     <div
       class="col-12 sm:col-6 md:col-6 lg:col-4 xl:col-3 px-2"
-      v-for="i in 5"
+      v-for="i in 12"
       :key="i"
     >
-      <VideoCard :avatar="true" />
+      <VideoCard :avatar="true"  />
     </div>
   </div>
 </template>
 
 <script setup>
 import VideoCard from "@/components/VideoCard.vue";
+
 </script>
 
 <style scoped>
-/* Additional styling for your component */
 .grid {
   padding: 10px;
 }

@@ -17,25 +17,26 @@
                 size="large"
                 style="background: white"
               />
-              <div class="flex pointer"><youtube /></div>
+              <router-link to="/">
+                <div class="flex md:ml-3 pointer"><youtube /></div>
+              </router-link>
             </span>
           </div>
-          <div class="overflow-y-auto mr-1">
+          <div class="overflow-y-auto mr-1" id="leftsidebar">
             <ul class="list-none px-3 m-0 mt-2">
               <li>
                 <ul class="list-none p-0 m-0 overflow-hidden">
                   <li>
-                    <a
-                      v-ripple
+                    <router-link
+                      to="/"
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-home mr-4"></i>
                       <span class="font-medium">Home</span>
-                    </a>
+                    </router-link>
                   </li>
                   <li>
                     <a
-                      v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-tiktok mr-4"></i>
@@ -45,7 +46,6 @@
 
                   <li>
                     <a
-                      v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-youtube mr-4"></i>
@@ -62,7 +62,6 @@
                   />
                   <li>
                     <a
-                      v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <span class="font-bold">You</span>
@@ -71,7 +70,6 @@
                   </li>
                   <li>
                     <a
-                      v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-address-book mr-4"></i>
@@ -80,7 +78,6 @@
                   </li>
                   <li>
                     <a
-                      v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-history mr-4"></i>
@@ -89,7 +86,6 @@
                   </li>
                   <li>
                     <a
-                      v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-list-check mr-4"></i>

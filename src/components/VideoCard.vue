@@ -2,7 +2,7 @@
   <div class="videoCard w-full">
     <Card class="overflow-hidden shadow-none cursor-pointer">
       <template #header>
-        <div>
+        <div >
           <iframe
             width="100%"
             height="190"
@@ -16,7 +16,7 @@
         </div>
       </template>
       <template #content>
-        <div class="flex justify-content-between">
+        <div class="flex justify-content-between" @click="watchvideoPage">
           <!-- avatar -->
           <div v-if="props.avatar">
             <Avatar
@@ -24,6 +24,7 @@
               class="mr-3"
               shape="circle"
               style="width: 41px; height: 41px"
+              @click.stop="profilePage"
             />
           </div>
           <!-- content -->
@@ -76,12 +77,14 @@ import Avatar from "primevue/avatar";
 import Menu from "primevue/menu";
 import { useTruncate } from "../composables/useTruncate.js";
 
-const props=defineProps({
-  avatar:{
-    type:Boolean,
-    default:true
-  }
-})
+import router from "@/router/index.js";
+
+const props = defineProps({
+  avatar: {
+    type: Boolean,
+    default: true,
+  },
+});
 
 const description = ref(
   "Delivery Tracking Django REST Framework ReactJS Project Delivery Tracking Django"
@@ -89,6 +92,13 @@ const description = ref(
 
 const { truncateText } = useTruncate(description, 45);
 
+const watchvideoPage = () => {
+  router.push("/watch");
+};
+
+const profilePage = () => {
+  router.push("/profile");
+};
 </script>
 
 <style >
@@ -97,4 +107,11 @@ const { truncateText } = useTruncate(description, 45);
   padding:  3px !important;
 }
 
+</style>
+
+<style scoped>
+.videoCard:hover iframe{
+ transform: scale(1.02);
+ transition: all 0.3s ease;
+}
 </style>
