@@ -21,8 +21,8 @@
           >Gross domestic product Explained</span
         >
         <div class="flex md:flex-row flex-column md:justify-content-between">
-          <div class="flex align-items-center">
-            <!-- avatar -->
+          <div class="flex align-items-center " >
+            <!-- Avatar  -->
             <div>
               <Avatar
                 image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
