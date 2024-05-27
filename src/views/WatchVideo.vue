@@ -11,7 +11,7 @@
       </Accordion>
 
       <div class="flex align-items-center">
-        <h4>123 Comments</h4>
+        <span @click="toggleComments=!toggleComments" class="font-semibold">123 Comments</span>
         <div>
           <Button label="Sort by" icon="pi pi-align-left" size="small"
             class="text-black-alpha-90 hover-bg-transparent ml-3" severity="secondary" text />
@@ -23,7 +23,7 @@
         <CommentForm @userComment="addUserComment" />
       </div>
       <!-- comments -->
-      <div class=" ">
+      <div>
         <Comment v-for="comment in comments" :key="comment.id" :comment="comment" />
       </div>
     </div>
@@ -77,7 +77,17 @@ const comments = ref([
       replies: [],
     },],
   },
-]);
+  {
+    id: 10,
+    username: 'User1',
+    avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
+    text: 'This is a comment',
+    timestamp: '1 hour ago',
+    replies: [],
+  },
+]
+
+);
 
 
 
@@ -85,7 +95,9 @@ const comments = ref([
 const addUserComment = (comment) => {
   comments.value.unshift(comment);
   console.log(comment)
-}
+};
+
+
 
 </script>
 

@@ -2,7 +2,7 @@
 <template>
   <div class="flex align-items-start">
     <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" class="mr-3" shape="circle"
-     size="small" />
+     style="width:40px;height: 40px;" />
     <div class="flex-auto">
       <input type="text"   ref="commentInput" @focus="inputFocus = true" @blur="handleBlur" v-model.trim="comment" class="commentSearchBox"
         placeholder="Add a comments...">

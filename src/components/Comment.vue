@@ -1,10 +1,10 @@
 <!-- Comment.vue -->
 <template>
 
-  <div class="comment-wrapper border-1 flex align-items-start my-2 ">
+  <div class="comment-wrapper border-1 flex align-items-start my-1 ">
 
     <div>
-      <Avatar :image="comment.avatar" size="small" class="mr-3" shape="circle" />
+      <Avatar :image="comment.avatar" class="mr-3" shape="circle" :class="small ? 'small' : 'avatar'" />
     </div>
     <div class="content w-full">
       <div class="font-medium">{{ comment.username }} <span class="font-light text-sm text-gray-500">{{
@@ -29,10 +29,12 @@
 
   </div>
   <!-- replies -->
-  <div  class="pl-4">
-    <Button v-if="comment.replies.length" :label="`${comment.replies.length} replies`" :icon="showReplies ? 'pi pi-angle-up' :'pi pi-angle-down'" @click="showReplies=!showReplies" severity="info" text rounded class="border-0  " />
-    <div  v-if="showReplies">
-      <Comment v-for="reply in comment.replies"  :key="reply.id" :comment="reply" />
+  <div class="">
+    <Button v-if="comment.replies.length" :label="`${comment.replies.length} replies`"
+      :icon="showReplies ? 'pi pi-angle-up' : 'pi pi-angle-down'" @click="showReplies = !showReplies" severity="info" text
+      rounded class="border-0  " />
+    <div v-if="showReplies">
+      <Comment v-for="reply in comment.replies" :key="reply.id" :small="true" :comment="reply" />
     </div>
   </div>
 
@@ -48,6 +50,10 @@ const props = defineProps({
   comment: {
     type: Object,
     default: {}
+  },
+  small: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -77,9 +83,18 @@ const setFocusHandler = (focusHandler) => {
   inputFocusHandler.value = focusHandler();
 }
 
-const showReplies=ref(false)
+const showReplies = ref(false)
 
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+.small{
+  width: 25px;
+  height: 25px;
+}
+</style>
