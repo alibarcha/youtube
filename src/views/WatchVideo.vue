@@ -63,7 +63,14 @@ const comments = ref([
     timestamp: '2 hour ago',
     replies: [{
       id: 3,
-      username: 'nested User',
+      username: 'Messi 6',
+      avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
+      text: 'This is a nested comment',
+      timestamp: '20 hour ago',
+      replies: [],
+    },{
+      id: 3,
+      username: 'Babar Azam 10',
       avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
       text: 'This is a nested comment',
       timestamp: '20 hour ago',
@@ -76,7 +83,7 @@ const comments = ref([
 
 // userComment
 const addUserComment = (comment) => {
-  comments.value.push(comment);
+  comments.value.unshift(comment);
   console.log(comment)
 }
 

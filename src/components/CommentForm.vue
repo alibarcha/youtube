@@ -21,7 +21,7 @@ import { ref, defineEmits, onMounted } from "vue";
 import Avatar from "primevue/avatar";
 import Button from "primevue/button";
 
-const emit = defineEmits(['userComment','focusInputBox'])
+const emit = defineEmits(['userComment','focusInputBox','cancel'])
 
 const comment = ref('');
 
@@ -51,11 +51,13 @@ const inputFocus = ref(false);
 const cancel = () => {
   comment.value = '';
   inputFocus.value = false;
+  emit('cancel')
 }
 
 const handleBlur = () => {
   if (!comment.value) {
     inputFocus.value = false
+    emit('cancel');
   }
 };
 

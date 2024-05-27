@@ -1,6 +1,8 @@
 <!-- Comment.vue -->
 <template>
+
   <div class="comment-wrapper border-1 flex align-items-start my-2 ">
+
     <div>
       <Avatar :image="comment.avatar" size="small" class="mr-3" shape="circle" />
     </div>
@@ -20,16 +22,18 @@
       </div>
       <!-- commentForm -->
       <div v-if="showReplyForm">
-        <CommentForm @userComment="addReply" @focusInputBox="setFocusHandler" />
-      </div>
-
-      <!-- replys -->
-      <div v-if="comment.replies">
-        <Comment v-for="reply in comment.replies" :key="reply.id" :comment="reply" />
+        <CommentForm @userComment="addReply" @focusInputBox="setFocusHandler" @cancel="cancel" />
       </div>
 
     </div>
 
+  </div>
+  <!-- replies -->
+  <div  class="pl-4">
+    <Button v-if="comment.replies.length" :label="`${comment.replies.length} replies`" :icon="showReplies ? 'pi pi-angle-up' :'pi pi-angle-down'" @click="showReplies=!showReplies" severity="info" text rounded class="border-0  " />
+    <div  v-if="showReplies">
+      <Comment v-for="reply in comment.replies"  :key="reply.id" :comment="reply" />
+    </div>
   </div>
 
 </template>
@@ -47,6 +51,10 @@ const props = defineProps({
   }
 })
 
+const cancel = () => {
+  showReplyForm.value = false;
+}
+
 
 const showReplyForm = ref(false);
 const toggleReplyForm = () => {
@@ -59,7 +67,7 @@ const addReply = (reply) => {
   if (!props.comment.replies) {
     props.comment.replies = [];
   }
-  props.comment.replies.push(reply);
+  props.comment.replies.unshift(reply);
   showReplyForm.value = false;
 };
 
@@ -69,6 +77,7 @@ const setFocusHandler = (focusHandler) => {
   inputFocusHandler.value = focusHandler();
 }
 
+const showReplies=ref(false)
 
 
 </script>
