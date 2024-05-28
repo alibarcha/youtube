@@ -81,7 +81,7 @@
       <Menu
         ref="notificationsMenu"
         id="notificationsMenu"
-        class="w-full md:w-26rem h-26rem"
+        class="w-full md:w-20rem max:h-26rem"
         :model="notificationsItems"
         :popup="true"
       />
