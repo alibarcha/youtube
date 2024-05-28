@@ -1,10 +1,10 @@
 <!-- Comment.vue -->
 <template>
 
-  <div class="comment-wrapper border-1 flex align-items-start my-1 ">
+  <div class="comment-wrapper  flex align-items-start my-2 ">
 
     <div>
-      <Avatar :image="comment.avatar" class="mr-3" shape="circle" :class="small ? 'small' : 'avatar'" />
+      <Avatar :image="comment.avatar" class="mr-2" shape="circle" :class="small ? 'small' : 'avatar'" />
     </div>
     <div class="content w-full">
       <div class="font-medium">{{ comment.username }} <span class="font-light text-sm text-gray-500">{{
@@ -22,7 +22,7 @@
       </div>
       <!-- commentForm -->
       <div v-if="showReplyForm">
-        <CommentForm @userComment="addReply" @focusInputBox="setFocusHandler" @cancel="cancel" />
+        <CommentForm @userComment="addReply" @focusInputBox="setFocusHandler" @cancel="cancel" small />
       </div>
 
     </div>
@@ -32,7 +32,7 @@
   <div class="">
     <Button v-if="comment.replies.length" :label="`${comment.replies.length} replies`"
       :icon="showReplies ? 'pi pi-angle-up' : 'pi pi-angle-down'" @click="showReplies = !showReplies" severity="info" text
-      rounded class="border-0  " />
+      rounded class="border-0 " />
     <div v-if="showReplies">
       <Comment v-for="reply in comment.replies" :key="reply.id" :small="true" :comment="reply" />
     </div>
@@ -63,6 +63,7 @@ const cancel = () => {
 
 
 const showReplyForm = ref(false);
+
 const toggleReplyForm = () => {
   showReplyForm.value = !showReplyForm.value;
 

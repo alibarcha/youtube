@@ -1,6 +1,6 @@
 <template>
-  <div class="grid border-1 lg:mx-8 mx-1">
-    <div class="xl:col-8  col-12 border-1">
+  <div class="grid  lg:mx-6  mx-1">
+    <div class="xl:col-8  col-12 ">
       <WatchVideoCard></WatchVideoCard>
       <Accordion>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam labore fuga autem, in voluptatum repellat,
@@ -19,8 +19,8 @@
 
       </div>
       <!--  comment form -->
-      <div class=" py-2 border-1">
-        <CommentForm @userComment="addUserComment" />
+      <div class=" py-3 ">
+        <CommentForm @userComment="addUserComment"  />
       </div>
       <!-- comments -->
       <div>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="xl:col-4 col-12 lg:mt-0 mt-4 xl:px-4 flex flex-column gap-3">
-      <VideoCard :avatar="false" v-for="i in 5" :key="i" />
+      <VideoCard :avatar="false" v-for="i in 4" :key="i" />
     </div>
   </div>
 </template>
@@ -49,40 +49,48 @@ import CommentForm from "../components/CommentForm.vue"
 const comments = ref([
   {
     id: 1,
-    username: 'User1',
+    username: 'TechGuru99',
     avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
-    text: 'This is a comment',
+    text: 'This video was incredibly helpful, thank you!',
     timestamp: '1 hour ago',
     replies: [],
   },
   {
     id: 2,
-    username: 'User2',
+    username: 'LearningLover',
     avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
-    text: 'This is a comment 2',
+    text: 'I learned so much from this, keep up the great work!"',
     timestamp: '2 hour ago',
     replies: [{
-      id: 3,
-      username: 'Messi 6',
+      id: 21,
+      username: 'HappyViewer',
       avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
-      text: 'This is a nested comment',
+      text: 'This was exactly what I was looking for, thanks!',
       timestamp: '20 hour ago',
       replies: [],
     },{
-      id: 3,
-      username: 'Babar Azam 10',
+      id: 22,
+      username: ' TipMaster',
       avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
-      text: 'This is a nested comment',
-      timestamp: '20 hour ago',
+      text: 'Great tips and tricks, cant wait to try them out!',
+      timestamp: '1d  ago',
       replies: [],
     },],
   },
   {
     id: 10,
-    username: 'User1',
+    username: 'DailyFan',
     avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
-    text: 'This is a comment',
-    timestamp: '1 hour ago',
+    text: 'I always look forward to your uploads, keep them coming!',
+    timestamp: '10 hour ago',
+    replies: [],
+  },
+  {
+    id: 11,
+    username: 'SimplicitySeeker',
+    avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
+    text: 'You make complex topics so easy to understand.',
+    timestamp: '13 hour ago',
     replies: [],
   },
 ]

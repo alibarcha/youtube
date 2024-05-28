@@ -1,16 +1,17 @@
 <!-- CommentForm.vue -->
 <template>
   <div class="flex align-items-start">
-    <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" class="mr-3" shape="circle"
-     style="width:40px;height: 40px;" />
+    <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" class="mr-2"
+      :class="small ? 'small' : 'avatar'" shape="circle" />
     <div class="flex-auto">
-      <input type="text"   ref="commentInput" @focus="inputFocus = true" @blur="handleBlur" v-model.trim="comment" class="commentSearchBox"
+      <input type="text" ref="commentInput" @focus="inputFocus = true" v-model.trim="comment" class="commentSearchBox"
         placeholder="Add a comments...">
       <!-- actions -->
       <div class="flex justify-content-end my-2" v-if="inputFocus">
-        <Button label="Cancel" @click="cancel" severity="secondary" text rounded class="border-0 " /> &nbsp;
-        <Button label="Comment" @click="submitComment" severity="secondary" :disabled="!comment" rounded
-          class="border-0 " />
+        <Button label="Cancel" @click="cancel" size="small" severity="secondary" text rounded class="border-0 " />
+        &nbsp;
+        <Button label="Comment" @click="submitComment" size="small" :severity="comment ? 'info' : 'secondary'"
+          :disabled="!comment" rounded class="border-0 " />
       </div>
     </div>
   </div>
@@ -20,8 +21,13 @@
 import { ref, defineEmits, onMounted } from "vue";
 import Avatar from "primevue/avatar";
 import Button from "primevue/button";
-
-const emit = defineEmits(['userComment','focusInputBox','cancel'])
+const props = defineProps({
+  small: {
+    type: Boolean,
+    default: false
+  }
+})
+const emit = defineEmits(['userComment', 'focusInputBox', 'cancel'])
 
 const comment = ref('');
 
@@ -54,16 +60,9 @@ const cancel = () => {
   emit('cancel')
 }
 
-const handleBlur = () => {
-  if (!comment.value) {
-    inputFocus.value = false
-    emit('cancel');
-  }
-};
 
-
-onMounted(()=>{
-  emit('focusInputBox', ()=>{
+onMounted(() => {
+  emit('focusInputBox', () => {
     commentInput.value.focus();
   });
 })
@@ -83,5 +82,15 @@ onMounted(()=>{
 
 .commentSearchBox:focus {
   border-bottom: 2px solid black;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.small {
+  width: 25px;
+  height: 25px;
 }
 </style>
