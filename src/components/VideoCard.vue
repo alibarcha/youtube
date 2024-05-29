@@ -18,7 +18,7 @@
       <template #content>
         <div class="flex justify-content-between" @click="watchvideoPage">
           <!-- avatar -->
-          <div v-if="props.avatar">
+          <div v-if="avatar">
             <Avatar
               image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
               class="mr-3"
@@ -37,14 +37,15 @@
 
             <div class="flex flex-column align-items-start">
               <div class="text-gray-600">
-                <span class="text-sm mr-2 inline-block" style="padding: 1px 0"
-                  >Geeky Shows</span
-                >
+                <span v-if="name" class="text-sm mr-2 inline-block" style="padding: 1px 0"
+                  >Geeky Shows
                 <i
                   class="pi pi-verified font-semibold"
                   style="font-size: 0.7rem"
                 >
                 </i>
+                </span
+                >
               </div>
               <div class="flex align-items-center text-gray-600">
                 <span class="text-sm">474 views</span>
@@ -80,6 +81,10 @@ import { useTruncate } from "../composables/useTruncate.js";
 import router from "@/router/index.js";
 
 const props = defineProps({
+  name:{
+    type:Boolean,
+    default:true
+  },
   avatar: {
     type: Boolean,
     default: true,
