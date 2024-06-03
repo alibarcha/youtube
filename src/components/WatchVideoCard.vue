@@ -24,12 +24,14 @@
           <div class="flex align-items-center " >
             <!-- Avatar  -->
             <div>
+              <RouterLink to="/profile">
               <Avatar
                 image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-                class="mr-3"
+                class="mr-3 cursor-pointer"
                 shape="circle"
                 style="width: 41px; height: 41px"
               />
+            </RouterLink>
             </div>
             <!-- content -->
             <div class="flex flex-column align-items-start">
