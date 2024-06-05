@@ -13,9 +13,10 @@ const router = createRouter({
       component: Home
     },
     {
-      path: '/watch',
+      path: '/watch/:id',
       name: 'watch',
-      component:WatchVideo
+      component:WatchVideo,
+      props:true
     },
     {
       path: '/profile',

@@ -1,7 +1,7 @@
 <template>
   <div class="grid  lg:mx-6  mx-1">
     <div class="xl:col-8  col-12 ">
-      <WatchVideoCard></WatchVideoCard>
+      <WatchVideoCard :videoId="videoId"></WatchVideoCard>
       <Accordion>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam labore fuga autem, in voluptatum repellat,
         reiciendis omnis ex soluta, rerum distinctio blanditiis facere beatae recusandae? Placeat, voluptas quo? Quia,
@@ -11,7 +11,7 @@
       </Accordion>
 
       <div class="flex align-items-center">
-        <span @click="toggleComments=!toggleComments" class="font-semibold">123 Comments</span>
+        <span @click="toggleComments = !toggleComments" class="font-semibold">123 Comments</span>
         <div>
           <Button label="Sort by" icon="pi pi-align-left" size="small"
             class="text-black-alpha-90 hover-bg-transparent ml-3" severity="secondary" text />
@@ -20,7 +20,7 @@
       </div>
       <!--  comment form -->
       <div class=" py-3 ">
-        <CommentForm @userComment="addUserComment"  />
+        <CommentForm @userComment="addUserComment" />
       </div>
       <!-- comments -->
       <div>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="xl:col-4 col-12 lg:mt-0 mt-4 xl:px-4 flex flex-column gap-3">
-      <VideoCard :avatar="false" v-for="i in 4" :key="i" />
+      <!-- <VideoCard :avatar="false" v-for="i in 4" :key="i" /> -->
     </div>
   </div>
 </template>
@@ -40,10 +40,13 @@ import VideoCard from "@/components/VideoCard.vue";
 import Accordion from "@/components/Accordion.vue";
 import Button from "primevue/button";
 import Avatar from "primevue/avatar";
+import { useRoute } from "vue-router";
 
-// comments
 import Comment from "../components/Comment.vue"
 import CommentForm from "../components/CommentForm.vue"
+
+// Get the route object
+const route = useRoute();
 
 
 const comments = ref([
@@ -68,7 +71,7 @@ const comments = ref([
       text: 'This was exactly what I was looking for, thanks!',
       timestamp: '20 hour ago',
       replies: [],
-    },{
+    }, {
       id: 22,
       username: ' TipMaster',
       avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
@@ -104,6 +107,10 @@ const addUserComment = (comment) => {
   comments.value.unshift(comment);
   console.log(comment)
 };
+
+
+// get specific video id
+const videoId = route.params.id;
 
 
 
