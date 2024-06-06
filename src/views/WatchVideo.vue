@@ -1,17 +1,19 @@
 <template>
   <div class="grid  lg:mx-6  mx-1">
     <div class="xl:col-8  col-12 ">
-      <WatchVideoCard></WatchVideoCard>
+      <WatchVideoCard :videoId="videoId" :channelId="channelId" @updateDescription="handleUpdateDescription">
+      </WatchVideoCard>
       <Accordion>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam labore fuga autem, in voluptatum repellat,
-        reiciendis omnis ex soluta, rerum distinctio blanditiis facere beatae recusandae? Placeat, voluptas quo? Quia,
-        nemo? Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe provident quam dolor esse reiciendis
-        mollitia voluptatem enim? Incidunt quae perspiciatis voluptatem sunt, fugiat nihil voluptate omnis, aperiam
-        quibusdam fuga dignissimos?
+        <span class="font-semibold">{{ videoDescription.views }} views</span>
+        <span class="font-semibold ml-2"> {{ getRelativeTime(videoDescription.date
+        ) }}</span>
+        <div class="mt-2 text-sm line-height-2">
+          {{ videoDescription.des }}
+        </div>
       </Accordion>
 
       <div class="flex align-items-center">
-        <span @click="toggleComments=!toggleComments" class="font-semibold">123 Comments</span>
+        <span @click="toggleComments = !toggleComments" class="font-semibold">123 Comments</span>
         <div>
           <Button label="Sort by" icon="pi pi-align-left" size="small"
             class="text-black-alpha-90 hover-bg-transparent ml-3" severity="secondary" text />
@@ -20,7 +22,7 @@
       </div>
       <!--  comment form -->
       <div class=" py-3 ">
-        <CommentForm @userComment="addUserComment"  />
+        <CommentForm @userComment="addUserComment" />
       </div>
       <!-- comments -->
       <div>
@@ -28,22 +30,29 @@
       </div>
     </div>
     <div class="xl:col-4 col-12 lg:mt-0 mt-4 xl:px-4 flex flex-column gap-3">
-      <VideoCard :avatar="false" v-for="i in 4" :key="i" />
+      <!-- <VideoCard :avatar="false" v-for="i in 4" :key="i" /> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import WatchVideoCard from "@/components/WatchVideoCard.vue";
 import VideoCard from "@/components/VideoCard.vue";
 import Accordion from "@/components/Accordion.vue";
 import Button from "primevue/button";
 import Avatar from "primevue/avatar";
+import { useRoute } from "vue-router";
+import { getRelativeTime } from '../composables/getRelativeTime';
+import { useFetch } from "@/composables/fetch.js";
 
-// comments
 import Comment from "../components/Comment.vue"
 import CommentForm from "../components/CommentForm.vue"
+import { useMainStore } from "../stores/index.js";
+const store = useMainStore();
+
+// Get the route object
+const route = useRoute();
 
 
 const comments = ref([
@@ -68,7 +77,7 @@ const comments = ref([
       text: 'This was exactly what I was looking for, thanks!',
       timestamp: '20 hour ago',
       replies: [],
-    },{
+    }, {
       id: 22,
       username: ' TipMaster',
       avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
@@ -105,6 +114,39 @@ const addUserComment = (comment) => {
   console.log(comment)
 };
 
+
+// get specific video id
+const videoId = route.params.id;
+
+
+// accordion content
+const videoDescription = ref({});
+const handleUpdateDescription = (description) => {
+  videoDescription.value = description;
+};
+
+// state for channelId
+const  channelId=ref('UCLA_DiR1FfKNvjuUpBHmylQ');
+
+const { data, error, isLoading, getRequest } = useFetch();
+const fetchVideoData = async () => {
+  const apiKey = store.apiKey;
+  if (!apiKey) {
+    console.error('API key is missing');
+    return;
+  }
+  await getRequest(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoId}&key=${apiKey}`);
+  if (data.value && data.value.items && data.value.items.length > 0) {
+    const videoData = await data.value.items[0];
+    channelId.value = videoData.snippet.channelId;
+  }
+};
+// channelId = 'UCwVg9btOceLQuNCdoQk9CXg';
+
+onMounted(() => {
+  fetchVideoData();
+  console.log('from parent: id', channelId)
+});
 
 
 </script>
