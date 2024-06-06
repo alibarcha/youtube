@@ -75,7 +75,7 @@ const props = defineProps({
 });
 
 
-const channelAvatar = ref("https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png");
+const channelAvatar = ref("");
 
 // Fetch channel avatar if needed
 const fetchChannelAvatar = async (channelId) => {
