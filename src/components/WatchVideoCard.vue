@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import Card from "primevue/card";
 import Button from "primevue/button";
 import ButtonGroup from "primevue/buttongroup";
@@ -104,11 +104,12 @@ watch(() => store.channelData, (newData) => {
   }
 });
 
-onMounted(() => {
+watch(()=> props.channelId, (newID) => {
   store.fetchChannelData(props.channelId);
-  store.fetchVideoData(props.videoId);
-});
-console.log('from child :id',props.channelId)
+})
+
+store.fetchVideoData(props.videoId);
+
 </script>
 
 <style>

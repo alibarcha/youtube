@@ -7,7 +7,7 @@
         <span class="font-semibold">{{ videoDescription.views }} views</span>
         <span class="font-semibold ml-2"> {{ getRelativeTime(videoDescription.date
         ) }}</span>
-        <div class="mt-2 text-sm line-height-2">
+        <div class="mt-2 text-sm line-height-3">
           {{ videoDescription.des }}
         </div>
       </Accordion>
@@ -31,6 +31,7 @@
     </div>
     <div class="xl:col-4 col-12 lg:mt-0 mt-4 xl:px-4 flex flex-column gap-3">
       <!-- <VideoCard :avatar="false" v-for="i in 4" :key="i" /> -->
+      {{ commentsData }}
     </div>
   </div>
 </template>
@@ -54,6 +55,39 @@ const store = useMainStore();
 // Get the route object
 const route = useRoute();
 
+
+// get specific video id
+const videoId = route.params.id;
+
+// accordion content
+const videoDescription = ref({});
+const handleUpdateDescription = (description) => {
+  videoDescription.value = description;
+};
+
+// state for channelId
+const  channelId = ref(null);
+
+const { data, error, isLoading, getRequest } = useFetch();
+const fetchVideoData = async () => {
+  const apiKey = store.apiKey;
+  if (!apiKey) {
+    console.error('API key is missing');
+    return;
+  }
+  await getRequest(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoId}&key=${apiKey}`);
+  if (  data.value.items && data.value.items.length > 0) {
+    const videoData = data.value.items[0];
+    channelId.value = videoData.snippet.channelId;
+  }
+};
+
+
+
+
+
+
+// comments
 
 const comments = ref([
   {
@@ -106,48 +140,48 @@ const comments = ref([
 
 );
 
-
-
 // userComment
 const addUserComment = (comment) => {
   comments.value.unshift(comment);
   console.log(comment)
 };
 
-
-// get specific video id
-const videoId = route.params.id;
-
-
-// accordion content
-const videoDescription = ref({});
-const handleUpdateDescription = (description) => {
-  videoDescription.value = description;
-};
-
-// state for channelId
-const  channelId=ref('UCLA_DiR1FfKNvjuUpBHmylQ');
-
-const { data, error, isLoading, getRequest } = useFetch();
-const fetchVideoData = async () => {
+// fetch comments
+const { data: commentsData, error: commentsError, isLoading: commentsLoading, getRequest: getCommentsRequest } = useFetch();
+const fetchCommentsData = async () => {
   const apiKey = store.apiKey;
   if (!apiKey) {
     console.error('API key is missing');
     return;
   }
-  await getRequest(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoId}&key=${apiKey}`);
-  if (data.value && data.value.items && data.value.items.length > 0) {
-    const videoData = await data.value.items[0];
-    channelId.value = videoData.snippet.channelId;
-  }
+  await getCommentsRequest(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${store.apiKey}`);
+  // if (commentsData.value && commentsData.value.items) {
+  //   comments.value = commentsData.value.items.map(item => ({
+  //     id: item.id,
+  //     username: item.snippet.topLevelComment.snippet.authorDisplayName,
+  //     avatar: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
+  //     text: item.snippet.topLevelComment.snippet.textOriginal,
+  //     timestamp: item.snippet.topLevelComment.snippet.publishedAt,
+  //     replies: item.replies ? item.replies.comments.map(reply => ({
+  //       id: reply.id,
+  //       username: reply.snippet.authorDisplayName,
+  //       avatar: reply.snippet.authorProfileImageUrl,
+  //       text: reply.snippet.textOriginal,
+  //       timestamp: reply.snippet.publishedAt,
+  //       replies: [],
+  //     })) : [],
+  //   }));
+  // }
 };
-// channelId = 'UCwVg9btOceLQuNCdoQk9CXg';
+
+
+console.log(' commentsData', commentsData)
+
 
 onMounted(() => {
   fetchVideoData();
-  console.log('from parent: id', channelId)
+  fetchCommentsData();
 });
-
 
 </script>
 
