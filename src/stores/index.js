@@ -21,7 +21,7 @@ export const useMainStore = defineStore('main', {
 
         async fetchChannelData(channelId) {
             try {
-                const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}=${this.apiKey}`);
+                const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}&key=${this.apiKey}`);
                 const data = await response.json();
                 this.channelData = data;
             } catch (err) {
