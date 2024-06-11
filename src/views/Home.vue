@@ -31,10 +31,11 @@ const fetchData = () => {
     console.error('API key is missing');
     return;
   }
-  getRequest(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&maxResults=3&regionCode=US&key=${store.apiKey}`);
+  getRequest(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&maxResults=30&regionCode=US&key=${store.apiKey}`);
 }
 
 fetchData();
+console.log('videos',videos)
 
 
 
