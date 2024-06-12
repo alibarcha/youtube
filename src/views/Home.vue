@@ -1,4 +1,8 @@
 <template>
+  <!-- tabs header -->
+  <div>
+    <TabsHeader :tabs="tabs"></TabsHeader>
+  </div>
   <div class="grid">
     <div v-if="loading">
       Loading...
@@ -20,6 +24,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import VideoCard from "@/components/VideoCard.vue";
 import { useFetch } from '../composables/fetch.js';
 import { useMainStore } from "../stores/index";
+import TabsHeader from "@/components/TabsHeader.vue"
 
 const store = useMainStore();
 const videos = ref([]);
@@ -67,6 +72,26 @@ const handleScroll = () => {
   }
 };
 
+const tabs = ref([
+  { title: 'All' },
+  { title: 'Javascript' },
+  { title: 'Responsive' },
+  { title: 'History' },
+  { title: '4K resolution' },
+  { title: 'Skills ' },
+  { title: 'AI' },
+  { title: 'Self-confidence' },
+  { title: 'Mountains' },
+  { title: 'Words' },
+  { title: 'Features Phones' },
+  { title: 'Watched' },
+  { title: 'Thoughts' },
+  { title: 'Web Development' },
+  { title: 'Git' },
+  { title: 'Operating System' },
+])
+
+
 onMounted(() => {
   fetchData();
   window.addEventListener('scroll', handleScroll);
@@ -85,9 +110,5 @@ onBeforeUnmount(() => {
 
 .col-12 {
   padding: 10px;
-}
-
-.border-1 {
-  border: 1px solid #ccc;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <header class="grid shadow-1 p-2 fixed left-0 right-0 top-0 z-5">
+  <header class="grid  pt-2 fixed left-0 right-0 top-0 z-5 border-1">
     <!-- logo -->
     <div class="col-3 flex align-items-center justify-content-start">
       <div>
