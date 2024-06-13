@@ -1,9 +1,10 @@
 <template>
+  <div class="home-wrapper relative">
   <!-- tabs header -->
-  <div>
+  <div class="tabsWrap py-3">
     <TabsHeader :tabs="tabs"></TabsHeader>
   </div>
-  <div class="grid">
+  <div class="grid pt-6">
     <div v-if="loading">
       Loading...
     </div>
@@ -15,6 +16,7 @@
       Loading more...
     </div>
   </div>
+</div>
 </template>
 
 
@@ -104,11 +106,16 @@ onBeforeUnmount(() => {
 
 
 <style scoped>
-.grid {
+.home-wrapper {
   padding: 10px;
 }
 
-.col-12 {
-  padding: 10px;
+.tabsWrap {
+  position: fixed;
+    z-index: 99;
+    left: 17px;
+    right: 17px;
+    background: white;
+    top: 50px;
 }
 </style>

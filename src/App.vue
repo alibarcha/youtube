@@ -4,7 +4,7 @@
     <SidebarLeft />
   </div>
 
-  <main class="pt-8">
+  <main class="pt-7">
     <RouterView />
   </main>
 
