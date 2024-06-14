@@ -35,6 +35,8 @@ const loading = ref(true);
 const loadingMore = ref(false);
 const error = ref(null);
 
+console.log('v',videos)
+
 const { data, getRequest } = useFetch();
 
 const fetchData = async (loadMore = false) => {

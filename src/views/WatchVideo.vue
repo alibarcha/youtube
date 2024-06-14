@@ -12,7 +12,7 @@
       </Accordion>
 
       <div class="flex align-items-center">
-        <span @click="toggleComments = !toggleComments" class="font-semibold">{{ comments.length }} Comments</span>
+        <span @click="toggleComments = !toggleComments" class="font-semibold">{{ totalComments }} Comments</span>
         <div>
           <Button label="Sort by" icon="pi pi-align-left" size="small"
             class="text-black-alpha-90 hover-bg-transparent ml-3" severity="secondary" text />
@@ -42,7 +42,7 @@
 
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import WatchVideoCard from "@/components/WatchVideoCard.vue";
 import Accordion from "@/components/Accordion.vue";
 import Button from "primevue/button";
@@ -52,10 +52,8 @@ import { useFetch } from "@/composables/fetch.js";
 import Comment from "@/components/Comment.vue";
 import CommentForm from "@/components/CommentForm.vue";
 import VideoCard from "@/components/VideoCard.vue";
-import { useMainStore } from "@/stores/index.js"
-import TabsHeader from "@/components/TabsHeader.vue"
-
-
+import { useMainStore } from "@/stores/index.js";
+import TabsHeader from "@/components/TabsHeader.vue";
 
 // Initialize the store
 const store = useMainStore();
@@ -103,8 +101,17 @@ const fetchVideoData = async () => {
   if (videoData.value && videoData.value.items && videoData.value.items.length > 0) {
     const video = videoData.value.items[0];
     channelId.value = video.snippet.channelId;
+    commentPageToken.value = null; // Reset pagination token for comments
   }
 };
+
+// computed property to get total comments
+const totalComments = computed(() => {
+  if (videoData.value && videoData.value.items && videoData.value.items.length > 0) {
+    return videoData.value.items[0].statistics.commentCount;
+  }
+  return 0;
+});
 
 // Fetch comments
 const { data: commentsData, error: commentsError, isLoading: commentsLoading, getRequest: getCommentsRequest } = useFetch();
@@ -147,10 +154,10 @@ const fetchCommentsData = async () => {
     loadingMoreComments.value = false;
   }
 };
+
 // Add user comment
 const addUserComment = (comment) => {
   comments.value.unshift(comment);
-  console.log(comment);
 };
 
 // Fetch more videos
@@ -182,23 +189,23 @@ const fetchMoreVideos = async () => {
 // Handle scrolling
 const handleScroll = () => {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-    if (pageToken.value && !loadingMore.value) {
-      fetchMoreVideos();
-    }
     if (commentPageToken.value && !loadingMoreComments.value) {
+      console.log("Fetching more comments...");
       fetchCommentsData();
+    }
+    if (pageToken.value && !loadingMore.value) {
+      console.log("Fetching more videos...");
+      fetchMoreVideos();
     }
   }
 };
 
 const tabs = ref([
   { title: 'All' },
-  { title: 'Javascript'},
+  { title: 'Javascript' },
   { title: 'Responsive' },
   { title: 'History' },
-])
-
-
+]);
 
 onMounted(() => {
   fetchVideoData();
@@ -210,10 +217,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });
-
-
-
 </script>
+
 
 
 

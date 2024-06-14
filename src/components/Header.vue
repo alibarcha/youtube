@@ -32,6 +32,10 @@
     <!-- voice record -->
     <Dialog v-model:visible="voiceModalVisible" position="top" modal header=" " dismissableMask :style="{ width: '33rem' }">
       <span class="font-medium text-xl block mb-8">Listening...  </span>
+      <!-- mic -->
+      <div>
+        
+      </div>
     </Dialog>
 
     <!-- icons -->

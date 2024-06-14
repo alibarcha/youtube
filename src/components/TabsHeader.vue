@@ -3,7 +3,7 @@
         <TabView :scrollable="true" selectOnFocus>
             <TabPanel v-for="tab in tabs" :key="tab.title">
                 <template #header>
-                    <Button :label="tab.title" size="small" severity="secondary" />
+                    <Button class="btn":label="tab.title"  size="small" severity="secondary" />
                 </template>
             </TabPanel>
         </TabView>
@@ -54,4 +54,5 @@ const props = defineProps({
     background-color: black;
     color: #fff;
 }
+
 </style>
