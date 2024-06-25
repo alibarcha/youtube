@@ -12,10 +12,10 @@
       <div class="actions flex align-items-center">
         <!-- likes -->
         <Button class="" icon="pi pi-thumbs-up" severity="secondary" rounded text size="small" />
-        <span class="text-gray-500">{{ formatViewCount(comment.likes) }}</span>
+        <span class="text-gray-500" v-if="comment.likes>0">{{ formatViewCount(comment.likes) }}</span>
         <!-- dislikes -->
         <Button class="ml-2" icon="pi pi-thumbs-down" severity="secondary" rounded text size="small" />
-        <!-- <span class="text-gray-500"></span> -->
+        <span class="text-gray-500" v-if="false">0</span>
         <span @click="toggleReplyForm" class="ml-4 cursor-pointer">Reply</span>
 
       </div>

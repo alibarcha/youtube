@@ -12,6 +12,14 @@ export const useMainStore = defineStore('main', {
         getChannelAvatar: (state) => state.channelData?.items[0]?.snippet?.thumbnails?.default?.url || '',
         getChannelTitle: (state) => state.channelData?.items[0]?.snippet?.title || '',
         getSubscriberCount: (state) => state.channelData?.items[0]?.statistics?.subscriberCount || 0,
+        getViewsCount: (state) => state.channelData?.items[0]?.statistics?.viewCount
+        || 0,
+        getVideosCount: (state) => state.channelData?.items[0]?.statistics?.
+        videoCount
+        || 0,
+        getCustomUrl: (state) => state.channelData?.items[0]?.snippet?.
+        customUrl
+        || '',
     },
 
     actions: {
