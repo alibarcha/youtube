@@ -98,7 +98,7 @@ const watchvideoPage = (item) => {
 };
 
 const profilePage = (item) => {
-  const formattedChannelName = item.snippet.channelTitle.replace(/\s+/g, '').toLowerCase();
+  const formattedChannelName = "@"+item.snippet.channelTitle.replace(/\s+/g, '').toLowerCase();
   const channelId = props.item.snippet.channelId;
   // const videoId = item.id;
   router.push({ name: 'profile', params: { channelName: formattedChannelName, channelId: channelId } });

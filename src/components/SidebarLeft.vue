@@ -14,7 +14,7 @@
               </router-link>
             </span>
           </div>
-          <div class="overflow-y-auto mr-1" id="leftsidebar">
+          <div class="overflow-y-auto mr-1" id="custom-scroll">
             <ul class="list-none px-3 m-0 mt-2">
               <li>
                 <ul class="list-none p-0 m-0 overflow-hidden">

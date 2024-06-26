@@ -2,7 +2,7 @@
   <div class="lg:mx-6  mx-1  profile-wrap">
 
     <div class="grid justify-content-center ">
-      <div class="lg:col-8 col-12 ">
+      <div class="lg:col-9 col-12 mt-5">
         <div class="flex md:flex-row flex-column md:justify-content-between">
           <div class="flex lg:align-items-center ">
             <!-- Avatar  -->
@@ -75,8 +75,9 @@
   </div>
 
   <!-- modal -->
-  <Dialog v-model:visible="visible" modal header="About" :draggable="false" :style="{ width: '560px' }" dismissableMask
+  <Dialog  v-model:visible="visible" modal header="About" :draggable="false" :style="{ width: '560px' }" dismissableMask
     :breakpoints="{ '1199px': '75vw', '575px': '380px' }">
+    
     <p class="p-0 m-0 font-light">
       {{ store.channelData?.items[0]?.snippet.description }}
     </p>
@@ -166,6 +167,7 @@
       <Button label="Report user" icon="pi pi-flag" :severity="comment ? 'info' : 'secondary'" rounded
         class="border-0 ml-2 " />
     </div>
+
   </Dialog>
 
 </template>
