@@ -19,9 +19,10 @@ const router = createRouter({
       props:true
     },
     {
-      path: '/profile',
+      path: '/profile/:channelName/:channelId',
       name: 'profile',
-      component:Profile
+      component:Profile,
+      props:true
     },
     {
       path: '/about',

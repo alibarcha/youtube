@@ -4,20 +4,9 @@
     <SidebarLeft />
   </div>
 
-  <main>
+  <main class="pt-7">
     <RouterView />
   </main>
-
-  <!-- <div v-if="data">
-    {{ data }}
-  </div>
-  <div v-if="isLoading">
-    loading.....
-  </div>
-  <div v-if="error">
-    {{ error }}
-  </div> -->
-
 
 </template>
 
@@ -26,6 +15,9 @@ import { onMounted, ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import Header from "./components/Header.vue";
 import SidebarLeft from "./components/SidebarLeft.vue";
+
+
+
 
 </script>
 

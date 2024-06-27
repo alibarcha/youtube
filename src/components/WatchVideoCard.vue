@@ -15,10 +15,10 @@
           <div class="flex align-items-center ">
             <!-- Avatar  -->
             <div>
-              <RouterLink to="/profile">
-                <Avatar :image="channelAvatarUrl" class="mr-3 cursor-pointer" shape="circle"
+            
+                <Avatar @click="profilePage" :image="channelAvatarUrl" class="mr-3 cursor-pointer" shape="circle"
                   style="width: 41px; height: 41px" />
-              </RouterLink>
+        
             </div>
             <!-- content -->
             <div class="flex flex-column align-items-start">
@@ -55,6 +55,7 @@ import Card from "primevue/card";
 import Button from "primevue/button";
 import ButtonGroup from "primevue/buttongroup";
 import Avatar from "primevue/avatar";
+import router from "@/router/index.js";
 import { formatViewCount } from '../composables/formatViews';
 import { useMainStore } from "../stores/index";
 
@@ -109,6 +110,13 @@ watch(()=> props.channelId, (newID) => {
 })
 
 store.fetchVideoData(props.videoId);
+
+// route change to profile
+const profilePage = (item) => {
+  const formattedChannelName = "@"+channelTitle.value.replace(/\s+/g, '').toLowerCase();
+  const channelId = props.channelId;
+  router.push({ name: 'profile', params: { channelName: formattedChannelName, channelId: channelId } });
+};
 
 </script>
 

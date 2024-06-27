@@ -1,25 +1,34 @@
 <template>
-  <div class="grid">
+  <div class="home-wrapper relative">
+  <!-- tabs header -->
+  <div class="tabsWrap py-3">
+    <TabsHeader :tabs="tabs"></TabsHeader>
+  </div>
+  <div class="grid pt-6">
     <div v-if="loading">
       Loading...
     </div>
     <div v-else-if="error">{{ error.message }}</div>
     <div v-else class="col-12 sm:col-6 md:col-6 lg:col-4 xl:col-3 px-2" v-for="(item, i) in videos" :key="i">
       <VideoCard :item="item" :avatar="true" />
+  
     </div>
     <div v-if="loadingMore" class="loading-more">
       Loading more...
     </div>
   </div>
+</div>
 </template>
 
 
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount,watch } from "vue";
 import VideoCard from "@/components/VideoCard.vue";
 import { useFetch } from '../composables/fetch.js';
 import { useMainStore } from "../stores/index";
+import TabsHeader from "@/components/TabsHeader.vue"
+import emitter from "@/composables/eventBus.js";
 
 const store = useMainStore();
 const videos = ref([]);
@@ -28,16 +37,21 @@ const loading = ref(true);
 const loadingMore = ref(false);
 const error = ref(null);
 
+console.log('v',videos)
+
 const { data, getRequest } = useFetch();
 
 const fetchData = async (loadMore = false) => {
   const apiKey = store.apiKey;
+  const searchQuery = store.searchText;
+
   if (!apiKey) {
     console.error('API key is missing');
     return;
   }
 
-  const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&chart=mostPopular&maxResults=12&regionCode=US&key=${apiKey}`
+  let searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1000&type=video&regionCode=US&key=${apiKey}`
+    + (searchQuery ? `&q=${encodeURIComponent(searchQuery)}` : '')
     + (pageToken.value ? `&pageToken=${pageToken.value}` : '');
 
   try {
@@ -46,10 +60,17 @@ const fetchData = async (loadMore = false) => {
     } else {
       loading.value = true;
     }
-    await getRequest(url);
+    await getRequest(searchUrl);
     if (data.value) {
-      videos.value = loadMore ? [...videos.value, ...data.value.items] : data.value.items;
-      pageToken.value = data.value.nextPageToken || null;
+      const videoIds = data.value.items.map(item => item.id.videoId).join(',');
+
+      // Fetch video details using the videoIds
+      const videoUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+      await getRequest(videoUrl);
+      if (data.value) {
+        videos.value = loadMore ? [...videos.value, ...data.value.items] : data.value.items;
+        pageToken.value = data.value.nextPageToken || null;
+      }
     }
   } catch (err) {
     error.value = err;
@@ -59,35 +80,66 @@ const fetchData = async (loadMore = false) => {
   }
 };
 
+
 const handleScroll = () => {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
     if (pageToken.value && !loadingMore.value) {
+      console.log("Fetching more videos...");
       fetchData(true);
     }
   }
 };
 
+const tabs = ref([
+  { title: 'All' },
+  { title: 'Javascript' },
+  { title: 'Responsive' },
+  { title: 'History' },
+  { title: '4K resolution' },
+  { title: 'Skills ' },
+  { title: 'AI' },
+  { title: 'Self-confidence' },
+  { title: 'Mountains' },
+  { title: 'Words' },
+  { title: 'Features Phones' },
+  { title: 'Watched' },
+  { title: 'Thoughts' },
+  { title: 'Web Development' },
+  { title: 'Git' },
+  { title: 'Operating System' },
+])
+
+
+const handleSearch=((q)=>{
+  fetchData();
+})
+
+
 onMounted(() => {
   fetchData();
   window.addEventListener('scroll', handleScroll);
+  emitter.on('searchContent',handleSearch);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
+  emitter.off('searchContent',handleSearch);
 });
+
 </script>
 
 
 <style scoped>
-.grid {
+.home-wrapper {
   padding: 10px;
 }
 
-.col-12 {
-  padding: 10px;
-}
-
-.border-1 {
-  border: 1px solid #ccc;
+.tabsWrap {
+    position: fixed;
+    z-index: 99;
+    left: 17px;
+    right: 17px;
+    background: white;
+    top: 50px;
 }
 </style>

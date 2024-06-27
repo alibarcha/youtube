@@ -14,7 +14,7 @@
           <!-- avatar -->
           <div v-if="avatar">
             <Avatar :image="channelAvatar" class="mr-3" shape="circle" style="width: 41px; height: 41px"
-              @click.stop="profilePage" />
+              @click.stop="profilePage(item)" />
           </div>
           <!-- content -->
           <div>
@@ -75,9 +75,9 @@ const props = defineProps({
 });
 
 
+// Fetch channel avatar 
 const channelAvatar = ref("");
 
-// Fetch channel avatar if needed
 const fetchChannelAvatar = async (channelId) => {
   try {
     const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${store.apiKey}`);
@@ -97,8 +97,11 @@ const watchvideoPage = (item) => {
   router.push({ name: 'watch', params: { id: item.id } });
 };
 
-const profilePage = () => {
-  router.push("/profile");
+const profilePage = (item) => {
+  const formattedChannelName = "@"+item.snippet.channelTitle.replace(/\s+/g, '').toLowerCase();
+  const channelId = props.item.snippet.channelId;
+  // const videoId = item.id;
+  router.push({ name: 'profile', params: { channelName: formattedChannelName, channelId: channelId } });
 };
 </script>
 
