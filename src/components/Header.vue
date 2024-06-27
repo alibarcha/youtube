@@ -11,17 +11,18 @@
         </div>
       </router-link>
     </div>
+
     <!-- search box -->
     <div class="col-6 flex align-items-center justify-content-center">
       <InputGroup class="max-h-3rem border-round-3xl">
-        <InputText v-focus ref="searchInput" placeholder="Search" v-model="searchValue"
+        <InputText v-focus ref="searchInput" placeholder="Search" v-model="store.searchText" @keyup.enter="searchVideos"
           class="max-h-3rem shadow-none border-round-left-3xl outline-none"
           :class="searchType ? 'border-right-none' : ''" @input="userTypeText" />
         <!-- :autofocus="true" -->
         <InputGroupAddon v-if="searchType" @click="clearSearchText" class="px-0 border-left-none cursor-pointer">
           <i class="pi pi-times"></i>
         </InputGroupAddon>
-        <InputGroupAddon class="border-round-right-3xl md:px-4 font-bold bg-gray-50 cursor-pointer">
+        <InputGroupAddon @click="searchVideos" class="border-round-right-3xl md:px-4 font-bold bg-gray-50 cursor-pointer">
           <i class="pi pi-search"></i>
         </InputGroupAddon>
       </InputGroup>
@@ -84,7 +85,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { useMainStore } from "../stores/index";
 import Avatar from "primevue/avatar";
 import youtube from "../components/icons/youtube.vue";
@@ -96,21 +97,23 @@ import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import Menu from "primevue/menu";
 import Dialog from 'primevue/dialog';
+import emitter from "@/composables/eventBus.js";
 
 const store = useMainStore();
 
 // search box
 const searchInput = ref(null);
-const searchValue = ref(null);
+// const searchValue = store.searchText;
 const searchType = ref(false);
 const userTypeText = () => {
-  searchType.value = searchValue.value !== "";
+  searchType.value = store.searchText!== "";
 };
-watch(searchValue, (newVal) => {
+watch(store.searchText, (newVal) => {
   searchType.value = newVal !== "";
 });
 const clearSearchText = () => {
-  searchValue.value = "";
+  store.searchText = "";
+  searchType.value=false;
 };
 
 // notificationsMenu
@@ -193,6 +196,11 @@ const vFocus = {
 // voice record
 const voiceModalVisible = ref(false);
 
+// search videos
+
+const searchVideos=()=>{
+  emitter.emit('searchContent',true)
+}
 
 
 </script>
