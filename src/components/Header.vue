@@ -22,7 +22,8 @@
         <InputGroupAddon v-if="searchType" @click="clearSearchText" class="px-0 border-left-none cursor-pointer">
           <i class="pi pi-times"></i>
         </InputGroupAddon>
-        <InputGroupAddon @click="searchVideos" class="border-round-right-3xl md:px-4 font-bold bg-gray-50 cursor-pointer">
+        <InputGroupAddon @click="searchVideos"
+          class="border-round-right-3xl md:px-4 font-bold bg-gray-50 cursor-pointer">
           <i class="pi pi-search"></i>
         </InputGroupAddon>
       </InputGroup>
@@ -31,16 +32,25 @@
         v-tooltip.bottom="'Search with your voice'" placeholder="Bottom" class="md:ml-3 ml-1" />
     </div>
     <!-- voice record -->
-    <Dialog v-model:visible="voiceModalVisible" position="top" modal header=" " dismissableMask :style="{ width: '33rem' }">
-      <span class="font-medium text-xl block mb-8">Listening...  </span>
+    <Dialog v-model:visible="voiceModalVisible" position="top" modal header=" " dismissableMask
+      :style="{ width: '33rem' }">
+      <span class="font-medium text-xl block mb-8">Listening... </span>
       <!-- mic -->
       <div>
-        
+
       </div>
     </Dialog>
 
+    <!-- logout -->
+    <!-- <button @click="logOut">Log out</button> -->
+    <!-- sign in -->
+    <div v-if="!isAuthenticated" class="col-3 flex align-items-center justify-content-end pr-4">
+      <Button @click="login" type="button" severity="info" label="Sign in" text-xs icon="pi pi-user" rounded outlined
+        class="border-gray-200" />
+    </div>
     <!-- icons -->
-    <div class="col-3 flex align-items-center justify-content-end">
+    <div v-else class="col-3 flex align-items-center justify-content-end">
+
       <Button icon="pi pi-video" severity="secondary" rounded text size="large" v-tooltip.bottom="'Create'"
         placeholder="Bottom" />
       <Button class="md:mx-3" icon="pi pi-bell" severity="secondary" rounded text size="large"
@@ -98,22 +108,24 @@ import InputGroupAddon from "primevue/inputgroupaddon";
 import Menu from "primevue/menu";
 import Dialog from 'primevue/dialog';
 import emitter from "@/composables/eventBus.js";
-
+import { useAuth0 } from '@auth0/auth0-vue';
 const store = useMainStore();
 
+// auth
+const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
 // search box
 const searchInput = ref(null);
 // const searchValue = store.searchText;
 const searchType = ref(false);
 const userTypeText = () => {
-  searchType.value = store.searchText!== "";
+  searchType.value = store.searchText !== "";
 };
 watch(store.searchText, (newVal) => {
   searchType.value = newVal !== "";
 });
 const clearSearchText = () => {
   store.searchText = "";
-  searchType.value=false;
+  searchType.value = false;
 };
 
 // notificationsMenu
@@ -198,9 +210,20 @@ const voiceModalVisible = ref(false);
 
 // search videos
 
-const searchVideos=()=>{
-  emitter.emit('searchContent',true)
+const searchVideos = () => {
+  emitter.emit('searchContent', true)
 }
+
+// auth login
+
+
+const login = () => {
+  loginWithRedirect();
+}
+// outh logout
+// const logOut=()=>{
+//   logout({ logoutParams: { returnTo: window.location.origin } });
+// }
 
 
 </script>

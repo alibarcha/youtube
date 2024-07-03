@@ -76,7 +76,7 @@ const props = defineProps({
 
 
 // Fetch channel avatar 
-const channelAvatar = ref("");
+const channelAvatar = ref(null);
 
 const fetchChannelAvatar = async (channelId) => {
   try {
