@@ -42,6 +42,7 @@ console.log('v',videos)
 const { data, getRequest } = useFetch();
 
 const fetchData = async (loadMore = false) => {
+
   const apiKey = store.apiKey;
   const searchQuery = store.searchText;
 
@@ -50,7 +51,7 @@ const fetchData = async (loadMore = false) => {
     return;
   }
 
-  let searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1000&type=video&regionCode=US&key=${apiKey}`
+  let searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=100&type=video&regionCode=US&key=${apiKey}`
     + (searchQuery ? `&q=${encodeURIComponent(searchQuery)}` : '')
     + (pageToken.value ? `&pageToken=${pageToken.value}` : '');
 

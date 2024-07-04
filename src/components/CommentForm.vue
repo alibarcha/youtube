@@ -1,7 +1,7 @@
 <!-- CommentForm.vue -->
 <template>
   <div class="flex align-items-start">
-    <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" class="mr-2"
+    <Avatar image="https://yt3.ggpht.com/a/default-user=s48-c-k-c0x00ffffff-no-rj" class="mr-2"
       :class="small ? 'small' : 'avatar'" shape="circle" />
     <div class="flex-auto">
       <input type="text" ref="commentInput" @focus="inputFocus = true" v-model.trim="comment" class="commentSearchBox"
@@ -39,7 +39,7 @@ const submitComment = () => {
     const newComment = {
       id: Date.now(),
       username: 'current User',
-      avatar: 'https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png',
+      avatar: 'https://yt3.ggpht.com/a/default-user=s48-c-k-c0x00ffffff-no-rj',
       text: comment.value,
       timestamp: new Date().toLocaleString(),
       replies: []

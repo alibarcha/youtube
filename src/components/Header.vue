@@ -22,7 +22,8 @@
         <InputGroupAddon v-if="searchType" @click="clearSearchText" class="px-0 border-left-none cursor-pointer">
           <i class="pi pi-times"></i>
         </InputGroupAddon>
-        <InputGroupAddon @click="searchVideos" class="border-round-right-3xl md:px-4 font-bold bg-gray-50 cursor-pointer">
+        <InputGroupAddon @click="searchVideos"
+          class="border-round-right-3xl md:px-4 font-bold bg-gray-50 cursor-pointer">
           <i class="pi pi-search"></i>
         </InputGroupAddon>
       </InputGroup>
@@ -31,16 +32,22 @@
         v-tooltip.bottom="'Search with your voice'" placeholder="Bottom" class="md:ml-3 ml-1" />
     </div>
     <!-- voice record -->
-    <Dialog v-model:visible="voiceModalVisible" position="top" modal header=" " dismissableMask :style="{ width: '33rem' }">
-      <span class="font-medium text-xl block mb-8">Listening...  </span>
+    <Dialog v-model:visible="voiceModalVisible" position="top" modal header=" " dismissableMask
+      :style="{ width: '33rem' }">
+      <span class="font-medium text-xl block mb-8">Listening... </span>
       <!-- mic -->
       <div>
-        
+
       </div>
     </Dialog>
 
+    <!-- sign in -->
+    <div v-if="!isAuthenticated" class="col-3 flex align-items-center justify-content-end pr-4">
+      <Button @click="login" type="button" severity="info" label="Sign in" text-xs icon="pi pi-user" rounded outlined
+        class="border-gray-200" />
+    </div>
     <!-- icons -->
-    <div class="col-3 flex align-items-center justify-content-end">
+    <div v-if="isAuthenticated" class="col-3 flex align-items-center justify-content-end">
       <Button icon="pi pi-video" severity="secondary" rounded text size="large" v-tooltip.bottom="'Create'"
         placeholder="Bottom" />
       <Button class="md:mx-3" icon="pi pi-bell" severity="secondary" rounded text size="large"
@@ -50,28 +57,27 @@
       <Menu ref="notificationsMenu" id="notificationsMenu" class="w-full md:w-20rem max:h-26rem"
         :model="notificationsItems" :popup="true" />
 
-      <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png" class="md:mr-2 pointer"
+      <Avatar :image="user?.picture" class="md:mr-2 pointer"
         shape="circle" size="normal" style="background-color: #ece9fc" aria-haspopup="true" aria-controls="accountMenu"
         @click="toggleAccountMenu" />
       <!-- menu -->
       <Menu :model="accountItems" class="w-full md:w-20rem" ref="accountMenu" id="accountMenu" :popup="true">
         <template #start>
           <button v-ripple
-            class="relative overflow-hidden w-full p-link flex align-items-center p-2 text-color hover:surface-200 border-noround">
-            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" class="mr-2"
-              shape="circle" />
-            <span class="inline-flex flex-column">
-              <span class="font-bold">Amy Elsner</span>
-              <span class="text-sm">Admin</span>
-            </span>
+            class="relative overflow-hidden w-full   flex align-items-center p-2 text-color bg-transparent  border-none">
+            <Avatar :image="user.picture" class="mr-2"
+              shape="circle" size="large" />
+            <div class="flex flex-column justify-content-start text-left">
+              <div class="font-semibold text-lg">{{ user.name }}</div>
+              <span class="text-sm">{{ user.email }}</span>
+            </div>
           </button>
         </template>
 
-        <template #submenuheader="{ item }">
-          <span class="text-primary font-bold">{{ item.label }}</span>
-        </template>
+    
+        <!-- <hr class="border-top-1 border-none surface-border" /> -->
         <template #item="{ item, props }">
-          <a v-ripple class="flex align-items-center" v-bind="props.action">
+          <a v-ripple class="flex align-items-center my-2" v-bind="props.action" @click="item.command">
             <span :class="item.icon" />
             <span class="ml-3">{{ item.label }}</span>
             <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
@@ -98,22 +104,24 @@ import InputGroupAddon from "primevue/inputgroupaddon";
 import Menu from "primevue/menu";
 import Dialog from 'primevue/dialog';
 import emitter from "@/composables/eventBus.js";
-
+import { useAuth0 } from '@auth0/auth0-vue';
 const store = useMainStore();
 
+// auth
+const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
 // search box
 const searchInput = ref(null);
 // const searchValue = store.searchText;
 const searchType = ref(false);
 const userTypeText = () => {
-  searchType.value = store.searchText!== "";
+  searchType.value = store.searchText !== "";
 };
 watch(store.searchText, (newVal) => {
   searchType.value = newVal !== "";
 });
 const clearSearchText = () => {
   store.searchText = "";
-  searchType.value=false;
+  searchType.value = false;
 };
 
 // notificationsMenu
@@ -145,25 +153,35 @@ const accountItems = ref([
     separator: true,
   },
   {
-    label: "Documents",
     items: [
       {
         label: "Google Account",
         icon: "pi pi-google",
+        command:()=>{
+          goToGoogleAccount();
+        }
       },
       {
         label: "YouTube",
         icon: "pi pi-youtube",
+        command:()=>{
+          goToYouTube();
+        }
       },
       {
-        label: "Logout",
+        label: "Sign out",
         icon: "pi pi-sign-out",
         shortcut: "⌘+Q",
+        command: () => {
+          logout();
+        }
       },
     ],
   },
   {
-    label: "Profile",
+    separator: true,
+  },
+  {
     items: [
       {
         label: "Settings",
@@ -198,8 +216,24 @@ const voiceModalVisible = ref(false);
 
 // search videos
 
-const searchVideos=()=>{
-  emitter.emit('searchContent',true)
+const searchVideos = () => {
+  emitter.emit('searchContent', true)
+}
+
+// auth login
+const login = () => {
+  loginWithRedirect();
+}
+// outh logout
+const logOut = () => {
+  logout({ logoutParams: { returnTo: window.location.origin } });
+}
+
+const goToGoogleAccount=()=>{
+  window.location.href="https://myaccount.google.com/";
+}
+const  goToYouTube=()=>{
+  window.location.href = "https://www.youtube.com/";
 }
 
 
