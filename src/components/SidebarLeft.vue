@@ -26,11 +26,11 @@
                     </router-link>
                   </li>
                   <li>
-                    <a
+                    <RouterLink to="/"
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
                       <i class="pi pi-tiktok mr-4"></i>
                       <span class="font-medium">Shorts</span>
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
@@ -38,12 +38,11 @@
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
                       <i class="pi pi-youtube mr-4"></i>
                       <span class="font-medium">Subscriptions</span>
-                      <span
-                        class="inline-flex align-items-center justify-content-center ml-auto bg-primary border-circle"
-                        style="min-width: 1.5rem; height: 1.5rem">3</span>
                     </a>
                   </li>
-                  <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
+                  <hr class="border-top-1 border-none surface-border" />
+
+                  <div v-if="isAuthenticated">
                   <li>
                     <a
                       class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
@@ -93,10 +92,37 @@
                       <span class="font-medium">Liked videos</span>
                     </a>
                   </li>
+                </div>
+
+                </ul>
+                <!-- not authenticate -->
+                <ul v-if="!isAuthenticated" class="list-none p-0 m-0 overflow-hidden">
+                  <div >
+                    <li>
+                    <a
+                      class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                      <i class="pi pi-address-book mr-4"></i>
+                      <span class="font-medium">You</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="flex align-items-center cursor-pointer p-3 border-round-md text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                      <i class="pi pi-history mr-4"></i>
+                      <span class="font-medium">History</span>
+                    </a>
+                  </li>
+                  </div>
+                  <hr class="mb-3 mx- border-top-1 border-none surface-border" />
+                  <li class="pl-3 lg:pr-8">
+                    <p class="text-sm">Sign in to like videos, comment, and subscribe.</p>
+                    <Button @click="login" type="button" severity="info" label="Sign in" text-xs icon="pi pi-user"
+                      rounded outlined class="border-gray-200 mb-2" />
+                  </li>
                 </ul>
 
-                <!-- subsciptions -->
-                <ul class="list-none p-0 m-0 overflow-hidden">
+
+                <ul v-if="isAuthenticated" class="list-none p-0 m-0 overflow-hidden">
                   <hr class="mb-3 mx- border-top-1 border-none surface-border" />
                   <div class="pl-3 mb-2 font-semibold">Subscriptions</div>
                   <li v-for="a in 5" :key="a">
@@ -148,7 +174,7 @@
 
                 <!-- tools -->
                 <ul class="list-none p-0 m-0 overflow-hidden">
-                  <hr class="mb-3 mx- border-top-1 border-none surface-border" />
+                  <hr class="border-top-1 border-none surface-border" />
 
                   <li>
                     <a v-ripple
@@ -178,22 +204,36 @@
                   </li>
                   <hr class="border-top-1 border-none surface-border" />
                   <li class="p-3 pt-1">
-                    <div >
-                    <a href="https://about.youtube/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light font-medium">About </a>
-                    <a href="https://blog.youtube/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Press </a>
-                    <a href="https://www.youtube.com/howyoutubeworks/policies/copyright/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Copyright </a>
-                    <a href="https://www.youtube.com/t/contact_us/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">How Contact us </a>
-                    <a href="https://www.youtube.com/creators/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Creators </a>
-                    <a href="https://www.youtube.com/ads/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Advertise </a>
-                    <a href="https://developers.google.com/youtube" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Developers </a>
-                  </div>
+                    <div>
+                      <a href="https://about.youtube/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light font-medium">About </a>
+                      <a href="https://blog.youtube/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Press </a>
+                      <a href="https://www.youtube.com/howyoutubeworks/policies/copyright/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Copyright </a>
+                      <a href="https://www.youtube.com/t/contact_us/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">How Contact us </a>
+                      <a href="https://www.youtube.com/creators/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Creators </a>
+                      <a href="https://www.youtube.com/ads/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Advertise </a>
+                      <a href="https://developers.google.com/youtube"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Developers </a>
+                    </div>
                     <div class="mt-3">
-                    <a href="https://www.youtube.com/t/terms" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Terms </a>
-                    <a href="https://policies.google.com/privacy?hl=en" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Privacy </a>
-                    <a href="https://www.youtube.com/howyoutubeworks/policies/community-guidelines/" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Policy & Safety </a>
-                    <a href="https://www.youtube.com/howyoutubeworks/?utm_campaign=ytgen&utm_source=ythp&utm_medium=LeftNav&utm_content=txt&u=https%3A%2F%2Fwww.youtube.com%2Fhowyoutubeworks%3Futm_source%3Dythp%26utm_medium%3DLeftNav%26utm_campaign%3Dytgen" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">How YouTube works </a>
-                    <a href="https://www.youtube.com/new" class="text-black-alpha-70 m-1 ml-0 text-sm font-light text-sm font-medium">Test new features </a>
-                  </div>
+                      <a href="https://www.youtube.com/t/terms"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Terms </a>
+                      <a href="https://policies.google.com/privacy?hl=en"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Privacy </a>
+                      <a href="https://www.youtube.com/howyoutubeworks/policies/community-guidelines/"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Policy & Safety </a>
+                      <a href="https://www.youtube.com/howyoutubeworks/?utm_campaign=ytgen&utm_source=ythp&utm_medium=LeftNav&utm_content=txt&u=https%3A%2F%2Fwww.youtube.com%2Fhowyoutubeworks%3Futm_source%3Dythp%26utm_medium%3DLeftNav%26utm_campaign%3Dytgen"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">How YouTube works
+                      </a>
+                      <a href="https://www.youtube.com/new"
+                        class="text-black-alpha-60 m-1 ml-0 text-xs font-light text-sm font-medium">Test new features
+                      </a>
+                    </div>
                     <span class="block mt-3 opacity-50 text-sm">&copy; 2024 alibarchadev</span>
                   </li>
 
@@ -215,7 +255,19 @@ import Sidebar from "primevue/sidebar";
 import youtube from "../components/icons/youtube.vue";
 import Button from "primevue/button";
 import Avatar from "primevue/avatar";
+import { useAuth0 } from '@auth0/auth0-vue';
+import { RouterLink } from "vue-router";
 const store = useMainStore();
-
 const visible = ref(store.sidebarState);
+// auth
+const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
+// auth login
+const login = () => {
+  loginWithRedirect();
+}
+// outh logout
+// const logOut = () => {
+//   logout({ logoutParams: { returnTo: window.location.origin } });
+// }
+console.log('auth',user)
 </script>
