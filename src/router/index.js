@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import WatchVideo from '../views/WatchVideo.vue'
 import Profile from '../views/Profile.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component:About
+    },
+    {
+      path:'/:pathMatch(.*)*',
+      name:'NotFound',
+      component:PageNotFound
     }
   ]
 })
