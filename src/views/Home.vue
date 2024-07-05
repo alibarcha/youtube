@@ -138,8 +138,8 @@ onBeforeUnmount(() => {
 .tabsWrap {
     position: fixed;
     z-index: 99;
-    left: 17px;
-    right: 17px;
+    left: 0;
+    right: 0;
     background: white;
     top: 50px;
 }
